@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './Profile.css';
+import List from "../components/List/List";
 
 const Profile = () => {
     const [state, setState] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const items = [];
 
     useEffect(() => {
         async function fetchData() {
@@ -24,20 +26,17 @@ const Profile = () => {
     if (isLoading) {
         return <h3>Loading...</h3>;
     }
+    
+    for (const item of Object.keys(state)) {
+        items.push({
+            label: item, value: state[item]
+        })
+    }
 
     return (
         <div className="Profile-wrap">
             <img className="Profile-avatar" src={state.avatar_url} alt=""/>
-            <ul>
-                <li><strong>avatar_url:</strong> {state.avatar_url}</li>
-                <li><strong>html_url:</strong> {state.html_url}</li>
-                <li><strong>repos_url:</strong> {state.repos_url}</li>
-                <li><strong>name:</strong> {state.name}</li>
-                <li><strong>company:</strong> {state.company}</li>
-                <li><strong>location:</strong> {state.location}</li>
-                <li><strong>email:</strong> {state.email}</li>
-                <li><strong>bio:</strong> {state.bio}</li>
-            </ul>
+            <List items={items} />
         </div>
     );
 };
