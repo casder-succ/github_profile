@@ -1,0 +1,19 @@
+.Profile-wrap {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.Profile-avatar {
+    width: 150px;
+}
+
+.Profile-wrap > ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+.Profile-wrap > ul > li {
+    display: flex;
+    justify-content: space-between;
+}
