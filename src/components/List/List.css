@@ -1,0 +1,10 @@
+.List-wrap {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.List-item {
+    display: flex;
+    justify-content: space-between;
+}
