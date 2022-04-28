@@ -6,6 +6,7 @@ import styled from "styled-components";
 const Profile = () => {
     const [state, setState] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState({status: false, message: ''});
     const [repos, setRepos] = useState([]);
     const items = [];
 
@@ -20,18 +21,29 @@ const Profile = () => {
 
     useEffect(() => {
         async function fetchData() {
+            setError({
+                status: false,
+                message: '',
+            });
             setIsLoading(true);
 
-            const result = await fetch('https://api.github.com/users/casder-succ');
-            const profileJson = await result.json();
+            try {
+                const result = await fetch('https://api.github.com/users/casder-succ');
+                const profileJson = await result.json();
 
-            if (profileJson) {
-                const repositories = await fetch(profileJson.repos_url);
-                const repositoriesJSON = await repositories.json();
+                if (profileJson) {
+                    const repositories = await fetch(profileJson.repos_url);
+                    const repositoriesJSON = await repositories.json();
 
-                setIsLoading(false);
-                setState(profileJson);
-                setRepos(repositoriesJSON);
+                    setIsLoading(false);
+                    setState(profileJson);
+                    setRepos(repositoriesJSON);
+                }
+            } catch (e) {
+                setError({
+                    status: true,
+                    message: 'Oops......'
+                })
             }
         }
 
