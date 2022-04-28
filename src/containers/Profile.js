@@ -6,6 +6,7 @@ import styled from "styled-components";
 const Profile = () => {
     const [state, setState] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [repos, setRepos] = useState([]);
     const items = [];
 
     const ProfileWrapper = styled.div`
@@ -25,8 +26,12 @@ const Profile = () => {
             const profileJson = await result.json();
 
             if (profileJson) {
+                const repositories = await fetch(profileJson.repos_url);
+                const repositoriesJSON = await repositories.json();
+
                 setIsLoading(false);
                 setState(profileJson);
+                setRepos(repositoriesJSON);
             }
         }
 
@@ -49,10 +54,16 @@ const Profile = () => {
         }
     }
 
+    const projects = repos.map(repo => ({
+        label: repo.name,
+        value: <Link url={repo.html_url} title='Github URL'/>
+    }));
+
     return (
         <ProfileWrapper>
             <Avatar src={state.avatar_url} alt=""/>
-            <List items={items}/>
+            <List title='Profile' items={items}/>
+            <List title='Projects' items={projects}/>
         </ProfileWrapper>
     );
 };
