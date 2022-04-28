@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './Profile.css';
 import List from "../components/List/List";
+import Link from "../components/Link/Link";
 
 const Profile = () => {
     const [state, setState] = useState({});
@@ -26,11 +27,17 @@ const Profile = () => {
     if (isLoading) {
         return <h3>Loading...</h3>;
     }
-    
+
     for (const item of Object.keys(state)) {
-        items.push({
-            label: item, value: state[item]
-        })
+        if (item === 'html_url') {
+            items.push({
+                label: item, value: <Link title='Github page' url={state[item]} />
+            })
+        } else {
+            items.push({
+                label: item, value: state[item]
+            })
+        }
     }
 
     return (
